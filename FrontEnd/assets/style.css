@@ -186,3 +186,12 @@ footer nav ul {
 	margin: 2em
 }
 
+.error {
+	background: brown;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 3px;
+    color: white;
+    text-transform: uppercase;
+}
