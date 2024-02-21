@@ -169,6 +169,31 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
+.gallery-filter {
+	text-align: center;
+}
+
+.gallery-filter .btn-filter {
+	min-width: 100px;
+	height: 37px;
+	border: solid 1px #1D6154;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 16px;
+	color: #1D6154;
+	margin : 3em 0.2em;
+	margin-top: 0;
+	text-align: center;
+	border-radius: 60px ;
+	background: none;
+	cursor: pointer;
+}
+
+.gallery-filter .active, .gallery-filter .btn-filter:hover {
+	color: white;
+	background: #1D6154;
+}
+
 input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;

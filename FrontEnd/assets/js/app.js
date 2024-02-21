@@ -1,33 +1,62 @@
 import { fetchJSON } from "./api.js";
-import { createElement } from "./dom.js";
-
-const divGallery = document.querySelector(".gallery")
+import { appendCategories, appendWorks, createElement } from "./dom.js";
 
 try {
     const works = await fetchJSON('http://localhost:5678/api/works')
-    console.log(works)
-    for (let i = 0; i < works.length; i++) {
-        const figureElement = createElement('figure')
-        const figcaptionElement = createElement('figcaption')
-        const imgElement = createElement('img', {
-            src : works[i].imageUrl,
-            alt : works[i].title
-        })
-        
-        figcaptionElement.innerText = works[i].title
-        figureElement.append(imgElement,figcaptionElement)
-        divGallery.appendChild(figureElement)
-    }
+    
+    // récupération des categories dans les projets (id & nom)
+    const categoriesTwin  = works.map(work => {
+        return {
+            id: work.category.id,
+            name: work.category.name
+        };
+    });
+
+    const setArray = new Set();
+    let categories = [];
+    // ajout des categories dans un Array sans les doublons
+    categoriesTwin.forEach(categorie => {
+        if (!setArray.has(categorie.id)) {
+            categories.push(categorie);
+            setArray.add(categorie.id);
+        }
+    });
+    // ajout une categorie pour tous les travaux
+    let allCategorie = {id: 0, name: "Tous"};
+    categories.unshift(allCategorie);
+
+    // ajout dans le dom
+    appendWorks(works)
+    appendCategories(categories)
+
+    // event filtre des travaux 
+    const buttonElements = document.querySelectorAll(".btn-filter");
+    buttonElements.forEach(element => {
+        element.addEventListener("click", function () {
+            //pour savoir quel filtre est selectionné
+            buttonElements.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            this.classList.add('active');
+            //on filtre les travaux avec la fonction filter par rapport à id categorie
+            let categoryId = this.dataset.filter
+            if(categoryId > 0) {
+                const worksFilter = works.filter(work => {
+                    return work.categoryId == categoryId;
+                });
+                appendWorks(worksFilter)
+            }
+            else
+                appendWorks(works)
+        });
+    });
 
 } catch (error) {  
-    const errorDiv = createElement('div', {
-        class : 'error'
-    })
+    const errorDiv = createElement('div', {class : 'error'})
     errorDiv.innerText = "Erreur chargement des projets"
-    divGallery.before(errorDiv)
+    document.querySelector(".gallery").before(errorDiv)
 }
 
-//const noms = works.map(work => work.title);
 
 /*{
     "id": 2,
@@ -40,3 +69,21 @@ try {
       "name": "Appartements"
     }
   },*/
+
+/*
+2eme solution récupération des catégories avec API
+try {
+    const categories = await fetchJSON('http://localhost:5678/api/categories')
+    console.log(categories)
+    let allCategorie = {
+        "id": 0,
+        "name": "Tous"
+    };
+    categories.unshift(allCategorie);
+    appendCategories(categories)
+
+} catch (error) {
+    const errorDiv = createElement('div', {class : 'error'})
+    errorDiv.innerText = "Erreur chargement des catégories"
+    document.querySelector(".gallery-filter").before(errorDiv)
+}*/
