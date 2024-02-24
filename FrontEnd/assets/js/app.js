@@ -1,8 +1,28 @@
 import { fetchJSON } from "./api.js";
 import { appendCategories, appendWorks, createElement } from "./dom.js";
 
+const token = window.localStorage.getItem("token");
+
+if(token)
+{
+    //changement login en logout
+    document.querySelector('#log').innerText = "logout"
+    document.querySelector('#log').setAttribute('class', 'logout')
+    //event deconnexion
+    document.querySelector('.logout').addEventListener("click", function (e) { 
+        e.preventDefault()
+        window.localStorage.removeItem("token");
+        window.location.href = "index.html";
+    });
+
+    document.querySelector('.edition-info').style.display = "block";
+    document.querySelector('.btn-edit').style.display = "flex";
+    document.querySelector('.gallery-filter').style.visibility = "hidden"
+}
+
 try {
     const works = await fetchJSON('http://localhost:5678/api/works')
+    //console.log(works)
     
     // récupération des categories dans les projets (id & nom)
     const categoriesTwin  = works.map(work => {
@@ -39,10 +59,10 @@ try {
             });
             this.classList.add('active');
             //on filtre les travaux avec la fonction filter par rapport à id categorie
-            let categoryId = this.dataset.filter
+            let categoryId = parseInt(this.dataset.filter)
             if(categoryId > 0) {
                 const worksFilter = works.filter(work => {
-                    return work.categoryId == categoryId;
+                    return work.categoryId === categoryId;
                 });
                 appendWorks(worksFilter)
             }
@@ -69,6 +89,7 @@ try {
       "name": "Appartements"
     }
   },*/
+
 
 /*
 2eme solution récupération des catégories avec API
