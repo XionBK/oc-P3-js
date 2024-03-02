@@ -1,19 +1,19 @@
 import { fetchJSON } from "./api.js"
 import { createElement } from "./dom.js";
+const URL_API_LOGIN = 'http://localhost:5678/api/users/login'
 
-const infoLogin = {}
 const form = document.querySelector('#form-login')
-
-form.addEventListener("submit", async function (e) {
+const connexion = async (e) => {
     try {
         e.preventDefault()
+        const infoLogin = {}   
         //on récupére les valeurs du formulaire
         const formData = new FormData(form)
         formData.forEach((value, key) => {
             infoLogin[key] = value.toString().trim();
         });
         //envoi des login
-        const logVal = await fetchJSON("http://localhost:5678/api/users/login", {
+        const logVal = await fetchJSON(URL_API_LOGIN, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(infoLogin)
@@ -33,4 +33,6 @@ form.addEventListener("submit", async function (e) {
         document.querySelector(".error")?.remove()
         document.querySelector("#form-login").before(errorDiv)
     }
-});
+}
+
+form.addEventListener("submit", connexion);

@@ -29,8 +29,20 @@ export function appendWorks(works) {
             alt : works[i].title
         }) 
         figcaptionElement.innerText = works[i].title
-        figureElement.append(imgElement,figcaptionElement)
-        document.querySelector(".gallery").appendChild(figureElement)
+        figureElement.append(imgElement)
+
+        const worksDom = figureElement.cloneNode(true);
+        const worksEditDom = figureElement.cloneNode(true);
+
+        const hrefDelete = createElement('a', { href : '#', class : 'delete'})
+        const imgDelete = createElement('img', { src : './assets/icons/delete.png', alt : 'delete'})
+            
+        hrefDelete.append(imgDelete)
+        worksEditDom.append(hrefDelete)
+        worksDom.append(figcaptionElement)
+
+        document.querySelector(".gallery").appendChild(worksDom)
+        document.querySelector(".gallery-edit").appendChild(worksEditDom)
     }
 }
 

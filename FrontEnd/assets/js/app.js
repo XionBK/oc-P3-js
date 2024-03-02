@@ -1,24 +1,38 @@
 import { fetchJSON } from "./api.js";
 import { appendCategories, appendWorks, createElement } from "./dom.js";
+import { closeModal, focusModal, modal, openModal } from "./modal.js";
 
 const token = window.localStorage.getItem("token");
+
+const logout = (e) => { 
+    e.preventDefault()
+    window.localStorage.removeItem("token");
+    window.location.href = "index.html";
+}
 
 if(token)
 {
     //changement login en logout
     document.querySelector('#log').innerText = "logout"
     document.querySelector('#log').setAttribute('class', 'logout')
-    //event deconnexion
-    document.querySelector('.logout').addEventListener("click", function (e) { 
-        e.preventDefault()
-        window.localStorage.removeItem("token");
-        window.location.href = "index.html";
-    });
-
     document.querySelector('.edition-info').style.display = "block";
     document.querySelector('.btn-edit').style.display = "flex";
     document.querySelector('.gallery-filter').style.visibility = "hidden"
+
+    //event logout / edit modal / access modal
+    document.querySelector('.logout').addEventListener("click", logout);
+    document.querySelector('.modal-edit').addEventListener("click", openModal);
+    window.addEventListener('keydown', e => {
+        if(e.key === "Escape" || e.key === "Esc") {
+            closeModal(e)
+        }
+    
+        if(e.key === "Tab" && modal !== null ) {
+            focusModal(e)
+        }
+    })
 }
+
 
 try {
     const works = await fetchJSON('http://localhost:5678/api/works')
@@ -31,16 +45,8 @@ try {
             name: work.category.name
         };
     });
-
-    const setArray = new Set();
-    let categories = [];
-    // ajout des categories dans un Array sans les doublons
-    categoriesTwin.forEach(categorie => {
-        if (!setArray.has(categorie.id)) {
-            categories.push(categorie);
-            setArray.add(categorie.id);
-        }
-    });
+    //suppressions des doublons
+    let categories = [...new Set(categoriesTwin.map(JSON.stringify))].map(JSON.parse);
     // ajout une categorie pour tous les travaux
     let allCategorie = {id: 0, name: "Tous"};
     categories.unshift(allCategorie);
