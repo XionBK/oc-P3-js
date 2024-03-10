@@ -3,11 +3,41 @@ import { appendCategories, appendWorks, createElement } from "./dom.js";
 import { closeModal, focusModal, modal, openModal } from "./modal.js";
 
 const token = window.localStorage.getItem("token");
+const URL_API_WORKS = 'http://localhost:5678/api/works/'
 
-const logout = (e) => { 
+const logout = (e) => {
     e.preventDefault()
     window.localStorage.removeItem("token");
     window.location.href = "index.html";
+}
+
+const deleteWork = async function (e) {
+    e.preventDefault()
+    let confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce projet ?");
+    if(confirmation)
+    {
+        try {   
+            let idElement = parseInt(this.dataset.id)
+            const deleteConfirm = await fetchJSON(URL_API_WORKS + idElement, {
+                method: 'DELETE',
+                headers: { 
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            console.log(deleteConfirm)
+            document.querySelectorAll(".work-"+idElement).forEach(el => el.remove());
+
+        } catch (error) {
+            const errorDiv = createElement('div', {class : 'error'})
+
+            if(error.cause.status === 401)
+                errorDiv.innerText = "Vous n'êtes pas autorisé à supprimer"
+            
+            document.querySelector(".error")?.remove()
+            document.querySelector(".modal-title").before(errorDiv)
+        }
+    }
 }
 
 if(token)
@@ -33,9 +63,8 @@ if(token)
     })
 }
 
-
 try {
-    const works = await fetchJSON('http://localhost:5678/api/works')
+    const works = await fetchJSON(URL_API_WORKS)
     //console.log(works)
     
     // récupération des categories dans les projets (id & nom)
@@ -47,6 +76,8 @@ try {
     });
     //suppressions des doublons
     let categories = [...new Set(categoriesTwin.map(JSON.stringify))].map(JSON.parse);
+    categories.sort((a, b) => a.id - b.id);
+
     // ajout une categorie pour tous les travaux
     let allCategorie = {id: 0, name: "Tous"};
     categories.unshift(allCategorie);
@@ -54,6 +85,12 @@ try {
     // ajout dans le dom
     appendWorks(works)
     appendCategories(categories)
+
+    //event delete
+    const btnDeletes = document.querySelectorAll(".delete");
+    btnDeletes.forEach(btnDelete => {
+        btnDelete.addEventListener("click", deleteWork);
+    });
 
     // event filtre des travaux 
     const buttonElements = document.querySelectorAll(".btn-filter");

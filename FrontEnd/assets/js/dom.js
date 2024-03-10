@@ -22,7 +22,9 @@ export function createElement(tagName, attributes = {}) {
 export function appendWorks(works) {
     document.querySelector(".gallery").innerHTML = ''
     for (let i = 0; i < works.length; i++) {
-        const figureElement = createElement('figure')
+        const figureElement = createElement('figure', { 
+            class : 'work-'+works[i].id
+        })
         const figcaptionElement = createElement('figcaption')
         const imgElement = createElement('img', {
             src : works[i].imageUrl,
@@ -34,8 +36,15 @@ export function appendWorks(works) {
         const worksDom = figureElement.cloneNode(true);
         const worksEditDom = figureElement.cloneNode(true);
 
-        const hrefDelete = createElement('a', { href : '#', class : 'delete'})
-        const imgDelete = createElement('img', { src : './assets/icons/delete.png', alt : 'delete'})
+        const hrefDelete = createElement('a', { 
+            href : '#', 
+            class : 'delete', 
+            'data-id' : works[i].id
+        })
+        const imgDelete = createElement('img', { 
+            src : './assets/icons/delete.png', 
+            alt : 'delete'
+        })
             
         hrefDelete.append(imgDelete)
         worksEditDom.append(hrefDelete)
@@ -44,6 +53,8 @@ export function appendWorks(works) {
         document.querySelector(".gallery").appendChild(worksDom)
         document.querySelector(".gallery-edit").appendChild(worksEditDom)
     }
+
+    
 }
 
 /**
