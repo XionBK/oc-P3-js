@@ -10,14 +10,14 @@ export const openModal = (e) => {
     modal.setAttribute('aria-modal', true)
     //focus modal
     let focusableElement = modal.querySelectorAll(elementInModal);
-    focusableElement[0].focus()
+    focusableElement[1].focus()
     //event
     modal.addEventListener("click", closeModal)
     modal.querySelector('.close-modal').addEventListener("click", closeModal)
     modal.querySelector('.modal-contain').addEventListener("click", stopPropagation)
 }
 
-export const closeModal = function (e) {
+export const closeModal = (e) => {
     if(modal === null) return
 
     e.preventDefault()
@@ -36,10 +36,16 @@ const stopPropagation = function (e) {
     e.stopPropagation()
 }
 
+// accessibilité avec tabulation
 export const focusModal = (e) => {
     let focusableElement = modal.querySelectorAll(elementInModal);
-    let firstFocusableElement = focusableElement[0];
-    let lastFocusableElement = focusableElement[focusableElement.length - 1];
+    let firstFocusableElement = focusableElement[1];
+    let lastFocusableElement = focusableElement[focusableElement.length - 6];
+    
+    if(document.querySelector('.gallery-picture').style.display === 'none') {
+        firstFocusableElement = focusableElement[0];
+        lastFocusableElement = focusableElement[focusableElement.length - 1];
+    }
 
     if (e.shiftKey) { //shift+tab retour arriere
         if (document.activeElement === firstFocusableElement) {

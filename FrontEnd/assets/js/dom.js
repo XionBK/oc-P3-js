@@ -16,25 +16,26 @@ export function createElement(tagName, attributes = {}) {
 
 /**
  * Création du dom des projets
- * @param {JSON} works 
+ * en général et édition
+ * @param {Array} works 
  */
 
 export function appendWorks(works) {
-    document.querySelector(".gallery").innerHTML = ''
+
     for (let i = 0; i < works.length; i++) {
         const figureElement = createElement('figure', { 
             class : 'work-'+works[i].id
         })
-        const figcaptionElement = createElement('figcaption')
         const imgElement = createElement('img', {
             src : works[i].imageUrl,
             alt : works[i].title
         }) 
-        figcaptionElement.innerText = works[i].title
         figureElement.append(imgElement)
-
         const worksDom = figureElement.cloneNode(true);
         const worksEditDom = figureElement.cloneNode(true);
+
+        const figcaptionElement = createElement('figcaption')
+        figcaptionElement.innerText = works[i].title
 
         const hrefDelete = createElement('a', { 
             href : '#', 
@@ -54,12 +55,11 @@ export function appendWorks(works) {
         document.querySelector(".gallery-edit").appendChild(worksEditDom)
     }
 
-    
 }
 
 /**
  * Création des boutons filtres catégories
- * @param {JSON} categories 
+ * @param {Array} categories 
  */
 
 export function appendCategories(categories) {
@@ -71,5 +71,20 @@ export function appendCategories(categories) {
         })
         buttonElement.innerText = categories[i].name
         document.querySelector(".gallery-filter").appendChild(buttonElement)
+    }
+}
+
+/**
+ * Récupération des categories
+ * et ajout dans <select>
+ * @param {Array} categories 
+ */
+export function listCategories(categories) {
+    for (let i = 0; i < categories.length; i++) {
+        const option = createElement('option', {
+            value : categories[i].id
+        })
+        option.innerText = categories[i].name
+        document.querySelector("#work-categorie").appendChild(option)
     }
 }

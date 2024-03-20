@@ -6,7 +6,7 @@ const form = document.querySelector('#form-login')
 const connexion = async (e) => {
     try {
         e.preventDefault()
-        const infoLogin = {}   
+        const infoLogin = {}
         //on récupére les valeurs du formulaire
         const formData = new FormData(form)
         formData.forEach((value, key) => {

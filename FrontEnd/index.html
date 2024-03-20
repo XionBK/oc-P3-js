@@ -9,7 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script src="./assets/js/app.js" type="module" defer></script>
+	<script src="./assets/js/app.js" type="module" ></script>
 </head>
 <body>
 
@@ -58,12 +58,7 @@
 			</span>
 			</a>
 		</div>
-		<div class="gallery-filter">
-			<!-- <button class="btn-filter active">Tous</button>
-			<button class="btn-filter">Objets</button>
-			<button class="btn-filter">Appartements</button>
-			<button class="btn-filter">Hôtels & restaurants</button> -->
-		</div>
+		<div class="gallery-filter"></div>
 		<div class="gallery">
 			<!--
 			 <figure>
@@ -135,16 +130,44 @@
 		</ul>
 	</nav>
 </footer>
-<aside id="modal" class="modal" role="dialog" aria-hidden="true" style="display: none;">
+
+<div id="modal" class="modal" role="dialog" aria-hidden="true" style="display: none;" >
 	<div class="modal-contain">
 		<div class="modal-head">
-			<a href="#" class="close-modal"><img src="./assets/icons/close.png" alt=""></a>
+			<a href="#" class="back-modal"><img src="./assets/icons/arrow.png" alt="precedent"></a>
+			<a href="#" class="close-modal"><img src="./assets/icons/close.png" alt="fermer"></a>
 		</div>
-		<p class="modal-title">Galerie photo</p>
-		<div class="gallery-edit"></div>
-		<button class="btn-add">Ajouter une photo</button>
+
+		<div class="gallery-picture">
+			<p class="modal-title">Galerie photo</p>
+			<div class="gallery-edit"></div>
+			<button class="btn-add">Ajouter une photo</button>
+		</div>
+
+		<div class="gallery-add" style="display: none;">
+			<p class="modal-title">Ajout photo</p>		
+			<form action="#" method="post" id="form-add-work">
+				<div class="form-add-contain">
+					<label class="label-file" tabindex="0" >
+						<span class="file-before-preview">
+							<img src="./assets/icons/file.png" alt="fichier" width="76">
+							<span class="btn-add-file">+ Ajouter photo</span>
+							<input type="file" id="input-file" name="image" accept=".jpg, .jpeg, .png" />
+							<span>jpg, png : 4mo max</span>
+						</span>
+					</label>
+					
+					<label for="work-title">Titre</label>
+					<input type="text" name="title" id="work-title" value="" >
+		
+					<label for="work-categorie">Catégorie</label>
+					<select name="category" id="work-categorie"></select>
+				</div>
+				<input type="submit" value="Valider">
+			</form>
+		</div>
 	</div>
-</aside>
+</div>
 </div>
 </body>
 </html>

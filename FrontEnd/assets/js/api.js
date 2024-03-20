@@ -1,4 +1,9 @@
-
+/**
+ * Connexion Api avec fetch
+ * @param {URL} url 
+ * @param {Object} options 
+ * @returns
+ */
 export async function fetchJSON (url, options = {}) {
     const headers = {Accept: 'application/json', ...options.headers}
     const r = await fetch(url, {...options, headers})

@@ -145,7 +145,17 @@ li a:hover {
 
 .gallery img {
 	width: 100%;
+}
 
+.gallery-add {
+	width: 430px;
+	margin: 0 auto;
+	
+}
+
+.form-add-contain {
+	border-bottom: solid 1px #B3B3B3;	
+	padding-bottom: 50px;
 }
 
 .gallery-edit {
@@ -191,7 +201,7 @@ li a:hover {
 #contact h2{
 	margin-bottom: 20px;
 }
-#contact form, #login form {
+#contact form, #login form, .form-add-contain {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
@@ -202,14 +212,14 @@ li a:hover {
     margin: 30px auto;
 }
 
-#contact input, #login input {
+#contact input, #login input, #form-add-work input[type="text"], #form-add-work select {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	padding-left: 10px;
 }
-#contact label, #login label {
+#contact label, #login label, #form-add-work label {
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -221,7 +231,7 @@ li a:hover {
 	text-align: center;
 }
 
-.gallery-filter .btn-filter {
+.gallery-filter .btn-filter, .btn-add-file {
 	min-width: 100px;
 	height: 37px;
 	border: solid 1px #1D6154;
@@ -264,7 +274,18 @@ footer nav ul {
 	margin: 2em
 }
 
-.error {
+.success {
+	background: green;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 3px;
+    color: white;
+    text-transform: uppercase;
+	margin: 20px 0px;
+}
+
+.error, .errorForm {
 	background: brown;
     padding: 10px;
     text-align: center;
@@ -342,7 +363,21 @@ main {
 }
 
 .modal-head {
-	text-align: right;
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.back-modal {
+	visibility: hidden;
+}
+
+.back-modal img {
+	transition: transform .2s ease-in-out;
+}
+
+.back-modal img:hover {
+	transform: scale(0.9)
 }
 
 .close-modal img {
@@ -353,7 +388,7 @@ main {
 	transform: rotate(90deg);
 }
 
-.btn-add {
+.btn-add, #form-add-work input[type="submit"] {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -364,15 +399,46 @@ main {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
+.label-file {
+	cursor: pointer;
+	background: #E8F1F6;
+	border-radius: 3px;
+	height: 169px;
+	display: flex;
+	justify-content: center;
+    flex-direction: column;
+}
 
+.label-file:hover {
+	filter: brightness(0.9);
+}
 
+.file-preview {
+	height: 100%;
+	object-fit: contain;
+}
 
-/*:focus{
-	outline: none !important;
-    border:1px solid red;
-	border-color: #ff0000!important;
-	box-shadow:0 0 10px #ff0000
-}*/
+.label-file span {
+	text-align: center;
+}
+#input-file {
+	visibility: hidden;
+	display: none;
+}
+
+.btn-add-file {
+	background: #CBD6DC;
+	color: #306685;
+	font-size: 14px;
+	width: 173px;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	margin: 10px auto;
+	border: none;
+
+}
 
 @keyframes fadein {
 	from {
@@ -381,15 +447,5 @@ main {
   
 	to {
 		opacity: 1;
-	}
-}
-
-@keyframes slidein {
-	from {
-	  transform: translateY(0%);
-	}
-  
-	to {
-	  transform: translateY(10%);
 	}
 }
